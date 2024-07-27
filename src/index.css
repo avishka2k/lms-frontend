@@ -1,0 +1,8 @@
+.gridjs-action-button {
+  cursor: pointer;
+}
+
+.btn-custom-change-request:hover {
+  background-color: #dc3545;
+  color: white;
+}
