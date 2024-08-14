@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { useAuth } from '../services/AuthContext';
+// import { useAuth } from '../services/AuthContext';
 
-const Login: React.FC = () => {
+const Login2: React.FC = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
-    const { signIn } = useAuth();
+    // const { signIn } = useAuth();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await signIn(username, password);
+            // await signIn(username, password);
         } catch (error) {
             setError('Sign-in failed. Please check your credentials.');
         }
@@ -43,4 +43,4 @@ const Login: React.FC = () => {
     );
 };
 
-export default Login;
+export default Login2;

@@ -45,7 +45,39 @@ const Sidebar = () => {
                                 </p>
                             </NavLink>
                         </li>
-
+                        <li className="nav-header">University Management</li>
+                        <li className="nav-item">
+                            <NavLink to="/university/faculty" className="nav-link">
+                                <i className="fas fa-home nav-icon"></i>
+                                <p>
+                                    Faculty
+                                </p>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/university/department" className="nav-link">
+                                <i className="fas fa-sitemap nav-icon"></i>
+                                <p>
+                                    Department
+                                </p>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/university/courses" className="nav-link">
+                                <i className="fas fa-book nav-icon"></i>
+                                <p>
+                                    Courses
+                                </p>
+                            </NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/university/modules" className="nav-link">
+                                <i className="fas fa-book-open nav-icon"></i>
+                                <p>
+                                    Modules
+                                </p>
+                            </NavLink>
+                        </li>
                         <li className="nav-header">User Management</li>
                         <li className="nav-item">
                             <a href="#" className="nav-link">
@@ -58,7 +90,7 @@ const Sidebar = () => {
                             </a>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
-                                    <NavLink to="/table" className="nav-link">
+                                    <NavLink to="/student/applicants" className="nav-link">
                                         <i className="far fa-circle nav-icon"></i>
                                         <p>Applicants</p>
                                     </NavLink>
@@ -99,53 +131,6 @@ const Sidebar = () => {
                                     </NavLink>
                                 </li>
                             </ul>
-                        </li>
-                        <li className="nav-header">Course Management</li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">
-                                {/* <i className="nav-icon fas fa-tree"></i> */}
-                                <i className="fas fa-book nav-icon"></i>
-                                <p>
-                                    Courses
-                                    <i className="fas fa-angle-right right"></i>
-                                </p>
-                            </a>
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <NavLink to="pages/UI/general.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>View All Courses</p>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink to="pages/UI/icons.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Add New Course</p>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink to="pages/UI/buttons.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Import Courses</p>
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="pages/calendar.html" className="nav-link">
-                                <i className="fas fa-th-large nav-icon"></i>
-                                <p>
-                                    Categories
-                                </p>
-                            </NavLink>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="pages/calendar.html" className="nav-link">
-                                <i className="fas fa-book-open nav-icon"></i>
-                                <p>
-                                    Modules
-                                </p>
-                            </NavLink>
                         </li>
                         <li className="nav-header">Enrollment Management</li>
                         <li className="nav-item">

@@ -60,7 +60,7 @@ const NewAnnounce = () => {
                         <div className="card">
                             {/* /.card-header */}
                             <div className="card-body">
-                                <form>
+                                <form autoComplete="on">
                                     {/* Common Fields */}
                                     <div className="form-group">
                                         <label htmlFor="title">Title <span className="text-danger">*</span></label>

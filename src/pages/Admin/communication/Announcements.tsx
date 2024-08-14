@@ -4,6 +4,7 @@ import { Grid } from 'gridjs-react';
 import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import BreadCrumb from "../../../components/Admin/Breadcrumb";
+import { Link } from 'react-router-dom';
 
 const Announcements = () => {
 
@@ -21,6 +22,12 @@ const Announcements = () => {
         ]);
         setData(gridData);
     }, []);
+
+    const handleCreateAnnouncement = () => {
+        // Logic to create a new announcement
+        console.log("Create New Announcement button clicked");
+    };
+    
     return (
         <section className="content">
             < BreadCrumb page_name="Announcements" parent_name="Communication" />
@@ -28,6 +35,13 @@ const Announcements = () => {
                 <div className="row">
                     <div className="col-12">
                         <div className="card">
+                            <div className="card-header d-flex justify-content-between align-items-center">
+                                <Link to="/announcements/new"
+                                    className="btn btn-primary"
+                                >
+                                    Create New Announcement
+                                </Link>
+                            </div>
                             {/* /.card-header */}
                             <div className="card-body">
                                 <Grid

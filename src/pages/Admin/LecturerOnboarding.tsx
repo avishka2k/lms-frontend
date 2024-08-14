@@ -101,7 +101,7 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-4">
                                             <div className="form-group">
                                                 <input className="form-control" type="text" />
-                                                <p><small>Zip Code</small></p>
+                                                <p><small>Country</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">

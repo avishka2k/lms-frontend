@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@aws-amplify/ui-react": "^5.0.2",
     "@aws-sdk/client-cognito-identity-provider": "^3.616.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -11,6 +12,7 @@
     "@types/jest": "^27.5.2",
     "@types/node": "^16.18.103",
     "@types/react-dom": "^18.3.0",
+    "aws-amplify": "^5.3.1",
     "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
     "gridjs": "^6.2.0",

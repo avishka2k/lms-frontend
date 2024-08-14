@@ -4,7 +4,7 @@ import Inputmask from "inputmask";
 
 
 const StudentOnboarding = () => {
-    const [intake, setIntake] = useState<any>([]);
+    // const [intake, setIntake] = useState<any>([]);
     const autogeneratenumber = Math.floor(Math.random() * 1000000);
     const emailInputRef = useRef<HTMLInputElement>(null);
     const phoneInputRef = useRef<HTMLInputElement>(null);
@@ -101,7 +101,7 @@ const StudentOnboarding = () => {
                                         <div className="col-12 col-sm-4">
                                             <div className="form-group">
                                                 <input className="form-control" type="text" />
-                                                <p><small>Zip Code</small></p>
+                                                <p><small>Country</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">

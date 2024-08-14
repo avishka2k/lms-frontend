@@ -1,5 +1,15 @@
 
+import { Auth } from 'aws-amplify';
+
 const Navbar = () => {
+
+    const handleSignOut = async () => {
+        try {
+            await Auth.signOut();
+        } catch (error) {
+            console.log('Error signing out: ', error);
+        }
+    };
     return (
         <nav className="main-header navbar navbar-expand navbar-white navbar-light">
             {/* Right navbar links */}
@@ -115,6 +125,11 @@ const Navbar = () => {
                     <a className="nav-link" data-widget="fullscreen" href="#" role="button">
                         <i className="fas fa-expand-arrows-alt"></i>
                     </a>
+                </li>
+                <li className="nav-item">
+                    <button className="nav-link" onClick={handleSignOut} role="button">
+                        <i className="fas fa-sign-out-alt fa-lg text-danger"></i>
+                    </button>
                 </li>
             </ul>
         </nav>
