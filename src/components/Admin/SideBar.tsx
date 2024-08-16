@@ -1,12 +1,31 @@
-import { Link, NavLink } from "react-router-dom";
+import { Auth } from "aws-amplify";
+import { useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const Sidebar = () => {
+
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        fetchUser();
+    }, [username]);
+
+    const fetchUser = async () => {
+        try {
+            const session = await Auth.currentSession();
+            const username = session.getIdToken().payload["cognito:username"];
+            setUsername(username);
+        } catch (error) {
+            console.log("Error fetching JWT token:", error);
+        }
+    };
+
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
             <a href="index3.html" className="brand-link">
                 <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0.8 }} />
-                <span className="brand-text font-weight-light">AdminLTE 3</span>
+                <span className="brand-text font-weight-light">UNI LMS</span>
             </a>
 
             {/* Sidebar */}
@@ -14,10 +33,10 @@ const Sidebar = () => {
                 {/* Sidebar user panel (optional) */}
                 <div className="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div className="image">
-                        <img src="/dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
+                        <img src="/dist/img/default-user.png" className="img-circle elevation-2" alt="User" />
                     </div>
                     <div className="info">
-                        <a href="#" className="d-block">Alexander Pierce</a>
+                        <a href="/profile" className="d-block">{username}</a>
                     </div>
                 </div>
 

@@ -9,11 +9,30 @@ import Announcements from './pages/Admin/communication/Announcements';
 import NewAnnounce from './pages/Admin/communication/NewAnnounce';
 import Messages from './pages/Admin/communication/Messages';
 import Faculty from './pages/Admin/university/Faculty';
-import Department from './pages/Admin/university/Department';
 import Courses from './pages/Admin/university/Courses';
 import PrivateRoute from './services/PrivateRoute';
+import NewFaculty from './pages/Admin/university/NewFaculty';
+import FacultyDetails from './pages/Admin/university/FacultyDetails';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Department from './pages/Admin/university/department/Department';
+import NewDepartment from './pages/Admin/university/department/NewDepartment';
+import DepartmentDetails from './pages/Admin/university/department/DepartmentDetails';
+
 const App: React.FC = () => (
   <Router>
+    <ToastContainer
+      position="top-right"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="light"
+    />
     <AuthProvider>
       <Routes>
         {/* <Route path="/login" element={<Login />} /> */}
@@ -24,7 +43,11 @@ const App: React.FC = () => (
               <AdminLayout>
                 <Routes>
                   <Route path="university/faculty" element={<Faculty />} />
+                  <Route path="university/faculty/new" element={<NewFaculty />} />
+                  <Route path="university/faculty/:id/details" element={<FacultyDetails />} />
                   <Route path="university/department" element={<Department />} />
+                  <Route path="university/department/new" element={<NewDepartment />} />
+                  <Route path="university/department/:id/details" element={<DepartmentDetails />} />
                   <Route path="university/courses" element={<Courses />} />
                   <Route path="student/applicants" element={<StudentApplicant />} />
                   <Route path="student/onboarding" element={<StudentOnboarding />} />

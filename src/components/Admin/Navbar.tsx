@@ -16,9 +16,9 @@ const Navbar = () => {
             <ul className="navbar-nav ml-auto">
                 {/* Navbar Search */}
                 <li className="nav-item">
-                    <a className="nav-link" data-widget="navbar-search" href="#" role="button">
+                    <button className="nav-link border-0 bg-transparent" data-widget="navbar-search">
                         <i className="fas fa-search"></i>
-                    </a>
+                    </button>
                     <div className="navbar-search-block">
                         <form className="form-inline">
                             <div className="input-group input-group-sm">
@@ -38,12 +38,12 @@ const Navbar = () => {
 
                 {/* Messages Dropdown Menu */}
                 <li className="nav-item dropdown">
-                    <a className="nav-link" data-toggle="dropdown" href="#">
+                    <button className="nav-link border-0 bg-transparent" data-toggle="dropdown">
                         <i className="far fa-comments"></i>
                         <span className="badge badge-danger navbar-badge">3</span>
-                    </a>
+                    </button>
                     <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             {/* Message Start */}
                             <div className="media">
                                 <img src="/dist/img/user1-128x128.jpg" alt="User Avatar" className="img-size-50 mr-3 img-circle" />
@@ -57,9 +57,9 @@ const Navbar = () => {
                                 </div>
                             </div>
                             {/* Message End */}
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             {/* Message Start */}
                             <div className="media">
                                 <img src="/dist/img/user8-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
@@ -73,9 +73,9 @@ const Navbar = () => {
                                 </div>
                             </div>
                             {/* Message End */}
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             {/* Message Start */}
                             <div className="media">
                                 <img src="/dist/img/user3-128x128.jpg" alt="User Avatar" className="img-size-50 img-circle mr-3" />
@@ -89,45 +89,45 @@ const Navbar = () => {
                                 </div>
                             </div>
                             {/* Message End */}
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item dropdown-footer">See All Messages</a>
+                        <button className="dropdown-item dropdown-footer">See All Messages</button>
                     </div>
                 </li>
                 {/* Notifications Dropdown Menu */}
                 <li className="nav-item dropdown">
-                    <a className="nav-link" data-toggle="dropdown" href="#">
+                    <button className="nav-link border-0 bg-transparent" data-toggle="dropdown">
                         <i className="far fa-bell"></i>
                         <span className="badge badge-warning navbar-badge">15</span>
-                    </a>
+                    </button>
                     <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span className="dropdown-item dropdown-header">15 Notifications</span>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             <i className="fas fa-envelope mr-2"></i> 4 new messages
                             <span className="float-right text-muted text-sm">3 mins</span>
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             <i className="fas fa-users mr-2"></i> 8 friend requests
                             <span className="float-right text-muted text-sm">12 hours</span>
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item">
+                        <button className="dropdown-item">
                             <i className="fas fa-file mr-2"></i> 3 new reports
                             <span className="float-right text-muted text-sm">2 days</span>
-                        </a>
+                        </button>
                         <div className="dropdown-divider"></div>
-                        <a href="#" className="dropdown-item dropdown-footer">See All Notifications</a>
+                        <button className="dropdown-item dropdown-footer">See All Notifications</button>
                     </div>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <button className="nav-link border-0 bg-transparent" data-widget="fullscreen">
                         <i className="fas fa-expand-arrows-alt"></i>
-                    </a>
+                    </button>
                 </li>
                 <li className="nav-item">
-                    <button className="nav-link" onClick={handleSignOut} role="button">
+                    <button className="nav-link border-0 bg-transparent" onClick={handleSignOut}>
                         <i className="fas fa-sign-out-alt fa-lg text-danger"></i>
                     </button>
                 </li>

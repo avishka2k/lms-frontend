@@ -1,7 +1,8 @@
+import { Auth } from "aws-amplify";
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL,
+  baseURL: "http://localhost:8082/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,16 +10,13 @@ const api = axios.create({
 
 // Add a request interceptor to include the token in the headers
 api.interceptors.request.use(
-  (config) => {
-    const authResponse = JSON.parse(
-      localStorage.getItem("authResponse") || "{}"
-    );
-    if (authResponse && authResponse.AuthenticationResult.AccessToken) {
-      config.headers[
-        "Authorization"
-      ] = `Bearer ${authResponse.AuthenticationResult.AccessToken}`;
+  async (config) => {
+    const session = await Auth.currentSession();
+    const token = session.getAccessToken().getJwtToken();
+
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
-    console.log("Request Token:", authResponse.AuthenticationResult.AccessToken); // Log the token for debugging. Remove this line in production
     return config;
   },
   (error) => {

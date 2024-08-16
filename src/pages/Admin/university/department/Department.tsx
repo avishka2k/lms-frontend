@@ -1,28 +1,28 @@
 import { useEffect, useState } from "react";
-import BreadCrumb from "../../../components/Admin/Breadcrumb";
-import 'datatables.net-buttons-bs5';
+import BreadCrumb from "../../../../components/Admin/Breadcrumb";
+import { deleteDepartment, getDepartments } from "../../../../services/api/usiversityService";
 import { Link } from "react-router-dom";
-import { deleteFaculty, getFaculties } from "../../../services/api/usiversityService";
-import { Button } from "@aws-amplify/ui-react";
-import PageLoading from "../../../components/Admin/PageLoading";
+import PageLoading from "../../../../components/Admin/PageLoading";
 
-const Faculty = () => {
-    const [faculty, setFaculty] = useState<any[]>([]);
+
+const Department = () => {
+
+    const [department, setDepartment] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const listFaculties = async () => {
-        const data = await getFaculties();
-        setFaculty(data);
+    const listDepartments = async () => {
+        const data = await getDepartments();
+        setDepartment(data);
         setLoading(false);
     }
 
     useEffect(() => {
-        listFaculties();
+        listDepartments();
     }, []);
 
     useEffect(() => {
         if (!loading) {
-            const table = $('#faculty-table').DataTable({
+            const table = $('#department-table').DataTable({
                 lengthChange: false,
                 autoWidth: false,
                 ordering: false,
@@ -30,12 +30,12 @@ const Faculty = () => {
                     {
                         text: 'Create New',
                         action: function (e: any, dt: any, node: any, config: any) {
-                            window.location.href = '/university/faculty/new';
+                            window.location.href = '/university/department/new';
                         },
                     },
                 ],
             });
-            table.buttons().container().appendTo('#faculty-table_wrapper .col-md-6:eq(0)');
+            table.buttons().container().appendTo('#department-table_wrapper .col-md-6:eq(0)');
 
             return () => {
                 table.destroy();
@@ -45,8 +45,8 @@ const Faculty = () => {
     }, [loading]);
 
     const handleDelete = async (id: string) => {
-        await deleteFaculty(id);
-        listFaculties();
+        await deleteDepartment(id);
+        listDepartments();
     }
 
     if (loading) {
@@ -55,16 +55,16 @@ const Faculty = () => {
 
     return (
         <section className="content">
-            < BreadCrumb page_name="Faculty" parent_name="University" />
+            <BreadCrumb page_name="Department" parent_name="University" />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
                         <div className="card">
                             <div className="card-body">
-                                <table id="faculty-table" className="table table-hover text-nowrap">
+                                <table id="department-table" className="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th className="col-3">Faculty Name</th>
+                                            <th className="col-3">Department Name</th>
                                             <th className="col-3">Description</th>
                                             <th className="col-3">Courses</th>
                                             <th className="col-1"></th>
@@ -72,16 +72,16 @@ const Faculty = () => {
                                     </thead>
                                     <tbody>
                                         {
-                                            Array.isArray(faculty) && faculty.length > 0 ? (
-                                                faculty.map((f: any) => (
+                                            Array.isArray(department) && department.length > 0 ? (
+                                                department.map((f: any) => (
                                                     <tr key={f.id}>
-                                                        <td><Link to={`/university/faculty/${f.id}/details`}>{f.name}</Link></td>
+                                                        <td><Link to={`/university/department/${f.id}/details`}>{f.name}</Link></td>
                                                         <td>{f.description}</td>
                                                         <td>0</td>
                                                         <td>
                                                             <i className="fas fa-ellipsis-v button-cursor-pointer" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true"></i>
                                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                <a className="dropdown-item" href={`/university/faculty/${f.id}/details`}>Edit</a>
+                                                                <a className="dropdown-item" href="@{/users/details}">Edit</a>
                                                                 <a className="dropdown-item text-danger" type="button" onClick={() => handleDelete(f.id)}>Delete</a>
                                                             </div>
                                                         </td>
@@ -106,4 +106,4 @@ const Faculty = () => {
     );
 }
 
-export default Faculty;
+export default Department;
