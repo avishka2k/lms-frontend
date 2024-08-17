@@ -59,13 +59,13 @@ export const getDepartments = async () => {
 };
 
 export const getDepartmentsWithoutAssigned = async () => {
-    try {
-      const response = await api.get("/uni/department/unassigned");
-      return response.data;
-    } catch (error: any) {
-      notifyError(error);
-    }
-  };
+  try {
+    const response = await api.get("/uni/department/unassigned");
+    return response.data;
+  } catch (error: any) {
+    notifyError(error);
+  }
+};
 
 export const getDepartmentById = async (id: string) => {
   try {
