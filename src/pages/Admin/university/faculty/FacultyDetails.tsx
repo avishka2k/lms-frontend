@@ -84,7 +84,7 @@ const FacultyDetails = () => {
                 table.destroy();
             }
         }
-    }, [facultyDepartmentLoading, id]);
+    }, [facultyDepartmentLoading, id, loading]);
 
     // Initialize DataTables for all departments
     useEffect(() => {
@@ -99,7 +99,7 @@ const FacultyDetails = () => {
                 depTable.destroy();
             }
         }
-    }, [departmentLoading, id, facultyDepartmentLoading]);
+    }, [departmentLoading, id, loading]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
