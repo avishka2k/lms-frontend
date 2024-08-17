@@ -1,10 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './services/AuthContext';
-import AdminLayout from './AdminLayout';
-import StudentApplicant from './pages/Admin/StudentApplicant';
-import StudentOnboarding from './pages/Admin/StudentOnboarding';
-import LecturerOnboarding from './pages/Admin/LecturerOnboarding';
+import AdminLayout from './pages/Admin/AdminLayout';
+import StudentApplicant from './pages/public/StudentApplicant';
+import StudentOnboarding from './pages/Admin/student/StudentOnboarding';
+import LecturerOnboarding from './pages/Admin/lecturer/LecturerOnboarding';
 import Announcements from './pages/Admin/communication/Announcements';
 import NewAnnounce from './pages/Admin/communication/NewAnnounce';
 import Messages from './pages/Admin/communication/Messages';

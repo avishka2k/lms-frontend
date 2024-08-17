@@ -1,6 +1,6 @@
-import Footer from "./components/Admin/Footer";
-import Navbar from "./components/Admin/Navbar";
-import Sidebar from "./components/Admin/SideBar";
+import Footer from "../../components/Admin/Footer";
+import Navbar from "../../components/Admin/Navbar";
+import Sidebar from "../../components/Admin/SideBar";
 
 const AdminLayout = ({ children }: { children: any }) => {
     return (
