@@ -9,7 +9,7 @@ import Announcements from './pages/Admin/communication/Announcements';
 import NewAnnounce from './pages/Admin/communication/NewAnnounce';
 import Messages from './pages/Admin/communication/Messages';
 import Faculty from './pages/Admin/university/faculty/Faculty';
-import Courses from './pages/Admin/university/Courses';
+import Courses from './pages/Admin/university/course/Courses';
 import PrivateRoute from './services/PrivateRoute';
 import NewFaculty from './pages/Admin/university/faculty/NewFaculty';
 import FacultyDetails from './pages/Admin/university/faculty/FacultyDetails';

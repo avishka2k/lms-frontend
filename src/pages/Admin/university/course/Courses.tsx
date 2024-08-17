@@ -1,4 +1,4 @@
-import BreadCrumb from "../../../components/Admin/Breadcrumb";
+import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 
 const Courses = () => {
     return (
