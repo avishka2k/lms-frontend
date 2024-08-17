@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import BreadCrumb from "../../../components/Admin/Breadcrumb";
-import { createFaculty } from "../../../services/api/usiversityService";
-import { CreateButton } from "../../../components/Admin/ButtonIndicator";
+import BreadCrumb from "../../../../components/Admin/Breadcrumb";
+import { createFaculty } from "../../../../services/api/usiversityService";
+import { CreateButton } from "../../../../components/Admin/ButtonIndicator";
 import { useState } from "react";
 
 const NewFaculty = () => {

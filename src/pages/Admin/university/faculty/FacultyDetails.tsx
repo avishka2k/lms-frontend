@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import BreadCrumb from "../../../components/Admin/Breadcrumb";
+import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { useParams } from "react-router-dom";
-import { getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, updateFaculty } from "../../../services/api/usiversityService";
-import { SaveButton } from "../../../components/Admin/ButtonIndicator";
-import PageLoading from "../../../components/Admin/PageLoading";
+import { getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, updateFaculty } from "../../../../services/api/usiversityService";
+import { SaveButton } from "../../../../components/Admin/ButtonIndicator";
+import PageLoading from "../../../../components/Admin/PageLoading";
 
 const FacultyDetails = () => {
     const { id } = useParams<{ id: string }>();

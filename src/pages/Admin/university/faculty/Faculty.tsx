@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import BreadCrumb from "../../../components/Admin/Breadcrumb";
+import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { Link } from "react-router-dom";
-import { deleteFaculty, getFaculties } from "../../../services/api/usiversityService";
+import { deleteFaculty, getFaculties } from "../../../../services/api/usiversityService";
 import { Button } from "@aws-amplify/ui-react";
-import PageLoading from "../../../components/Admin/PageLoading";
+import PageLoading from "../../../../components/Admin/PageLoading";
 
 const Faculty = () => {
     const [faculty, setFaculty] = useState<any[]>([]);
