@@ -4,6 +4,7 @@ import 'datatables.net-buttons-bs5';
 import { useParams } from "react-router-dom";
 import { getDepartmentById, updateDepartment } from "../../../../services/api/usiversityService";
 import { SaveButton } from "../../../../components/Admin/ButtonIndicator";
+import PageLoading from "../../../../components/Admin/PageLoading";
 
 const DepartmentDetails = () => {
     const [loading, setLoading] = useState(true);
@@ -31,13 +32,13 @@ const DepartmentDetails = () => {
 
     useEffect(() => {
         if (!loading) {
-            const table = $('#department-deparments-table').DataTable({
+            const table = $('#courses-department-table').DataTable({
                 lengthChange: false,
                 autoWidth: false,
                 ordering: false,
                 buttons: [
                     {
-                        text: 'Add Department',
+                        text: 'Add Courses',
                         action: function (e: any, dt: any, node: any, config: any) {
                             $('<button type="button" style="display:none;" data-toggle="modal" data-target="#addDepartmentModal"></button>')
                                 .appendTo('body')
@@ -48,14 +49,14 @@ const DepartmentDetails = () => {
                 ],
             });
 
-            table.buttons().container().appendTo('#department-departments-table_wrapper .col-md-6:eq(0)');
+            table.buttons().container().appendTo('#courses-department-table_wrapper .col-md-6:eq(0)');
 
             return () => {
                 table.destroy();
             }
         }
 
-    }, [loading]);
+    }, [loading, id]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -76,6 +77,10 @@ const DepartmentDetails = () => {
             setIsSaving(false);
         }, 1000);
     };
+
+    if (loading) {
+        return <PageLoading />
+    }
 
     return (
         <section className="content">
@@ -156,7 +161,7 @@ const DepartmentDetails = () => {
                                                 <div className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
                                                     <div className="modal-content">
                                                         <div className="modal-header">
-                                                            <h4 className="modal-title">Add department to department</h4>
+                                                            <h4 className="modal-title">Add Courses to department</h4>
                                                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -209,7 +214,7 @@ const DepartmentDetails = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <table id="department-deparments-table" className="table table-hover text-nowrap">
+                                            <table id="courses-department-table" className="table table-hover text-nowrap">
                                                 <thead>
                                                     <tr>
                                                         <th className="col-3">Scope name</th>

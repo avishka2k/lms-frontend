@@ -1,13 +1,14 @@
 .custom-spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
 #faculty-table_wrapper .btn-secondary,
 #faculty-departments-table_wrapper .btn-secondary,
-#department-table_wrapper .btn-secondary {
+#department-table_wrapper .btn-secondary,
+#courses-department-table_wrapper .btn-secondary {
   background-color: #007bff !important;
   border: none;
 }
