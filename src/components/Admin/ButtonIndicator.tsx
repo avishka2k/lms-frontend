@@ -3,34 +3,35 @@ import React from 'react';
 interface ButtonProps {
     isSaving: boolean;
     onClick?: any;
+    type: 'button' | 'submit';
+    label: string;
+    activeLabel: string;
+    disabled?: boolean;
 }
 
-const SaveButton: React.FC<ButtonProps> = ({ isSaving, onClick }) => {
+const Button: React.FC<ButtonProps> = ({ isSaving, onClick, type, label, activeLabel, disabled }) => {
     return (
-        <button className="btn btn-primary mr-4" type="button" disabled={isSaving} onClick={onClick}>
+        <button className="btn btn-primary mr-4" type={type} disabled={isSaving || disabled} onClick={onClick}>
             {isSaving && (<span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>)}
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? `${activeLabel}` : label}
         </button>
     );
 };
 
-const CreateButton: React.FC<ButtonProps> = ({ isSaving }) => {
-    return (
-        <button className="btn btn-primary mr-4" type="submit" disabled={isSaving}>
-            {isSaving && (<span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>)}
-            {isSaving ? 'Creating...' : 'Create'}
-        </button>
-    );
-};
+const SaveButton: React.FC<Omit<ButtonProps, 'type' | 'label'| 'activeLabel'>> = (props) => (
+    <Button {...props} type="button" activeLabel="Saving..." label="Save" />
+);
 
-const AddButton: React.FC<ButtonProps> = ({ isSaving, onClick }) => {
-    return (
-        <button className="btn btn-primary mr-4" type="button" disabled={isSaving} onClick={onClick}>
-            {isSaving && (<span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>)}
-            {isSaving ? 'Adding...' : 'Add'}
-        </button>
-    );
-};
+const CreateButton: React.FC<Omit<ButtonProps, 'type' | 'label'| 'activeLabel'>> = (props) => (
+    <Button {...props} type="submit" activeLabel='Creating...' label="Create" />
+);
 
+const AddButton: React.FC<Omit<ButtonProps, 'type' | 'label'| 'activeLabel'>> = (props) => (
+    <Button {...props} type="button" activeLabel='Adding...' label="Add" />
+);
 
-export { SaveButton, CreateButton, AddButton };
+const AssignButton: React.FC<Omit<ButtonProps, 'type' | 'label'| 'activeLabel'>> = (props) => (
+    <Button {...props} type="button" activeLabel='Assigning...' label="Assign" />
+);
+
+export { SaveButton, CreateButton, AddButton, AssignButton };

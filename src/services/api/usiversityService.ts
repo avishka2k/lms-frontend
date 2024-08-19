@@ -114,3 +114,18 @@ export const getDepartmentsByFacultyId = async (id: string) => {
     notifyError(error.response.data);
   }
 };
+
+export const unassignDepartmentFromFaculty = async (departmentId: string) => {
+  try {
+    const response = await api.delete(`/uni/department/${departmentId}/unassign`);
+    notifySuccess("Department unassigned successfully");
+    return response;
+  } catch (error: any) {
+    notifyError(error.response.data);
+  }
+}
+
+export const assignDepartmentToFaculty = async (facultyId: string, departmentId: string) => {
+    const response = await api.post(`/uni/faculty/${facultyId}/department/${departmentId}`);
+    return response;
+}

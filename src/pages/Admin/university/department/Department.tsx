@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import { deleteDepartment, getDepartments } from "../../../../services/api/usiversityService";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PageLoading from "../../../../components/Admin/PageLoading";
 
 
@@ -9,6 +9,7 @@ const Department = () => {
 
     const [department, setDepartment] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const listDepartments = async () => {
         const data = await getDepartments();
@@ -30,7 +31,7 @@ const Department = () => {
                     {
                         text: 'Create New',
                         action: function (e: any, dt: any, node: any, config: any) {
-                            window.location.href = '/university/department/new';
+                            navigate("/university/department/new");
                         },
                     },
                 ],

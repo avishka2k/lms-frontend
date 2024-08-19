@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import { createDepartment } from "../../../../services/api/usiversityService";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
+import { CreateButton } from "../../../../components/Admin/ButtonIndicator";
+import { useState } from "react";
 
 const NewDepartment = () => {
 
+    const [isCreating, setIsCreating] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
+        setIsCreating(true);
         const create = createDepartment({
             name: e.target.name.value,
             description: e.target.description.value
@@ -20,6 +24,7 @@ const NewDepartment = () => {
 
             navigate(`/university/department/${id}/details`);
         }
+        setIsCreating(false);
     }
 
     return (
@@ -46,7 +51,7 @@ const NewDepartment = () => {
                                     <div className="form-group row mt-4">
                                         <label className="col-sm-2 col-form-label"></label>
                                         <div className="col-sm-10 d-flex">
-                                            <button type="submit" className="btn btn-primary mr-4">Create</button>
+                                            <CreateButton isSaving={isCreating} />
                                             <button type="reset" className="btn btn-default float-right">Cancel</button>
                                         </div>
                                     </div>

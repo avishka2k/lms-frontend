@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { deleteFaculty, getFaculties } from "../../../../services/api/usiversityService";
-import { Button } from "@aws-amplify/ui-react";
 import PageLoading from "../../../../components/Admin/PageLoading";
 
 const Faculty = () => {
     const [faculty, setFaculty] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const listFaculties = async () => {
         const data = await getFaculties();
@@ -30,7 +30,7 @@ const Faculty = () => {
                     {
                         text: 'Create New',
                         action: function (e: any, dt: any, node: any, config: any) {
-                            window.location.href = '/university/faculty/new';
+                            navigate("/university/faculty/new");
                         },
                     },
                 ],

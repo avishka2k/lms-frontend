@@ -240,7 +240,7 @@ const DepartmentDetails = () => {
                                                         <td>Account</td>
                                                         <td>Read and Write</td>
                                                         <td>
-                                                            <i className="fas fa-ellipsis-v" typeof="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"></i>
+                                                            <i className="fas fa-ellipsis-v button-cursor-pointer" typeof="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"></i>
                                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                                 <a className="dropdown-item text-danger" href="#">Unassign</a>
                                                             </div>

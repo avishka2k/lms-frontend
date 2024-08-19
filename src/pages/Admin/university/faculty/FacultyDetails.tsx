@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
-import { useParams } from "react-router-dom";
-import { getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, updateFaculty } from "../../../../services/api/usiversityService";
-import { SaveButton } from "../../../../components/Admin/ButtonIndicator";
+import { Link, useParams } from "react-router-dom";
+import { assignDepartmentToFaculty, getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, unassignDepartmentFromFaculty, updateFaculty } from "../../../../services/api/usiversityService";
+import { AssignButton, SaveButton } from "../../../../components/Admin/ButtonIndicator";
 import PageLoading from "../../../../components/Admin/PageLoading";
+import { notifyError, notifySuccess } from "../../../../components/notify";
 
 const FacultyDetails = () => {
     const { id } = useParams<{ id: string }>();
@@ -12,6 +13,7 @@ const FacultyDetails = () => {
     const [departmentLoading, setDepartmentLoading] = useState(true);
     const [facultyDepartmentLoading, setFacultyDepartmentLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
+    const [isAssign, setIsAssign] = useState(false);
     const [faculty, setFaculty] = useState<any>({
         id: '',
         fid: '',
@@ -35,25 +37,22 @@ const FacultyDetails = () => {
     }, [id]);
 
     // Fetch all departments
+    const fetchDepartments = async () => {
+        const departmentsData = await getDepartmentsWithoutAssigned();
+        setDepartments(departmentsData);
+        setDepartmentLoading(false);
+    };
     useEffect(() => {
-        const fetchDepartments = async () => {
-
-            const departmentsData = await getDepartmentsWithoutAssigned();
-            setDepartments(departmentsData);
-
-            setDepartmentLoading(false);
-
-        };
         fetchDepartments();
     }, []);
 
     // Fetch departments by faculty ID
+    const fetchDepartmentsByFaculty = async () => {
+        const facultyDepartmentsData = await getDepartmentsByFacultyId(id || '');
+        setFacultyDepartments(facultyDepartmentsData);
+        setFacultyDepartmentLoading(false);
+    };
     useEffect(() => {
-        const fetchDepartmentsByFaculty = async () => {
-            const facultyDepartmentsData = await getDepartmentsByFacultyId(id || '');
-            setFacultyDepartments(facultyDepartmentsData);
-            setFacultyDepartmentLoading(false);
-        };
         fetchDepartmentsByFaculty();
     }, [id]);
 
@@ -120,6 +119,51 @@ const FacultyDetails = () => {
             setIsSaving(false);
         }, 1000);
     };
+
+    const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
+
+    const handleCheckboxChange = (id: string) => {
+        setCheckedItems(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }));
+    };
+
+    const getCheckedIds = () => {
+        return Object.keys(checkedItems).filter(id => checkedItems[id]);
+    };
+
+    const handleUnassign = async (id: string) => {
+        await unassignDepartmentFromFaculty(id);
+        fetchDepartmentsByFaculty();
+        fetchDepartments();
+    }
+
+    // next day start from here
+    const handleAssign = async () => {
+        const checkedIds = getCheckedIds();
+        if (checkedIds.length === 0) {
+            return;
+        }
+        try {
+            setIsAssign(true);
+            await Promise.all(
+                checkedIds.map(async (departmentId: any) => {
+                    console.log(departmentId);
+                    await assignDepartmentToFaculty(id || '', departmentId);
+                })
+            );
+            setTimeout(() => {
+                setIsAssign(false);
+            }, 1000);
+            notifySuccess("Department assigned successfully");
+            fetchDepartmentsByFaculty();
+            fetchDepartments();
+
+        } catch (error: any) {
+            notifyError(error.response.data);
+        }
+    }
 
     if (loading) {
         return <PageLoading />
@@ -216,13 +260,14 @@ const FacultyDetails = () => {
                                                                 <table id="department-table" className="table table-hover text-nowrap">
                                                                     <thead>
                                                                         <tr>
-                                                                            <th className="col-3">
+                                                                            {/* <th className="col-3">
                                                                                 <div className="custom-control custom-checkbox">
                                                                                     <input type="checkbox" name="terms" className="custom-control-input scope-checkbox" id="scopeMainCheck" />
                                                                                     <label className="custom-control-label" htmlFor="scopeMainCheck"></label>
                                                                                     Department ID
                                                                                 </div>
-                                                                            </th>
+                                                                            </th> */}
+                                                                            <th className="col-3">Department ID</th>
                                                                             <th className="col-3">Department Name</th>
                                                                         </tr>
                                                                     </thead>
@@ -233,9 +278,11 @@ const FacultyDetails = () => {
                                                                                     <tr key={d.id}>
                                                                                         <td>
                                                                                             <div className="custom-control custom-checkbox">
-                                                                                                <input type="checkbox" name="terms" className="custom-control-input scope-checkbox" id="checkbox-role1" />
-                                                                                                <label className="custom-control-label" htmlFor="checkbox-role1"></label>
-                                                                                                <a href="@{/roles/details}">{d.did}</a>
+                                                                                                <input type="checkbox" name="terms" className="custom-control-input scope-checkbox" id={`checkbox-${d.id}`}
+                                                                                                    checked={!!checkedItems[d.id]} onChange={() => handleCheckboxChange(d.id)} />
+                                                                                                <label className="custom-control-label" htmlFor={`checkbox-${d.id}`}></label>
+
+                                                                                                <Link to={``}>{d.did}</Link>
                                                                                             </div>
                                                                                         </td>
                                                                                         <td>{d.name}</td>
@@ -252,7 +299,7 @@ const FacultyDetails = () => {
                                                             )}
                                                         </div>
                                                         <div className="modal-footer d-flex justify-content-start">
-                                                            <button type="button" className="btn btn-primary" id="scopeAssignButton" disabled>Assign</button>
+                                                            <AssignButton onClick={() => handleAssign()} isSaving={isAssign} disabled={Object.keys(checkedItems).filter(id => checkedItems[id]).length === 0} />
                                                             <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                                                         </div>
                                                     </div>
@@ -279,9 +326,9 @@ const FacultyDetails = () => {
                                                                         <td><a href="#">{d.did}</a></td>
                                                                         <td>{d.name}</td>
                                                                         <td>
-                                                                            <i className="fas fa-ellipsis-v" typeof="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"></i>
+                                                                            <i className="fas fa-ellipsis-v button-cursor-pointer" typeof="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"></i>
                                                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                                <a className="dropdown-item text-danger" href="#">Unassign</a>
+                                                                                <button className="dropdown-item text-danger" onClick={() => handleUnassign(d.id)}>Unassign</button>
                                                                             </div>
                                                                         </td>
                                                                     </tr>
