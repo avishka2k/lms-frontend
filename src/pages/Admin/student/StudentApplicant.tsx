@@ -1,9 +1,8 @@
 import { h } from 'gridjs';
 import { Grid } from 'gridjs-react';
-// import 'gridjs/dist/theme/mermaid.css';
 import { useEffect, useState } from 'react';
 import BreadCrumb from '../../../components/Admin/Breadcrumb';
-import { getStudents } from '../../../services/api/admin';
+import { getStudents } from '../../../services/api/user';
 const StudentApplicant = () => {
 
     const [data, setData] = useState<(string | null)[][]>([]);
