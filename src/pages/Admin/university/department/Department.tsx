@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
-import { deleteDepartment, getDepartments } from "../../../../services/api/usiversityService";
+import { deleteDepartment, getDepartments } from "../../../../services/api/usiversity";
 import { Link, useNavigate } from "react-router-dom";
 import PageLoading from "../../../../components/Admin/PageLoading";
 

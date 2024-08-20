@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
-import { createFaculty } from "../../../../services/api/usiversityService";
+import { createFaculty } from "../../../../services/api/usiversity";
 import { CreateButton } from "../../../../components/Admin/ButtonIndicator";
 import { useState } from "react";
 

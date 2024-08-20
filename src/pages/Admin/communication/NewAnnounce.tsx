@@ -1,16 +1,16 @@
 import { useState } from "react";
 import BreadCrumb from "../../../components/Admin/Breadcrumb";
-
+import { createAssignment, createEvent, createExam, createMaintenance } from "../../../services/api/announcement";
+import { CreateButton } from "../../../components/Admin/ButtonIndicator";
 const NewAnnounce = () => {
+
+    const [isCreating, setIsCreating] = useState(false);
+
+
     const [formData, setFormData] = useState({
         title: '',
         description: '',
         type: '',
-        courseCode: '',
-        instructorName: '',
-        courseDate: '',
-        courseTime: '',
-        courseResources: '',
         assignmentCourseCode: '',
         assignmentTitle: '',
         assignmentDueDate: '',
@@ -30,18 +30,10 @@ const NewAnnounce = () => {
         eventContact: '',
         eventFlyer: '',
         eventRegistration: '',
-        generalDate: '',
-        generalDepartment: '',
-        generalContact: '',
-        generalAttachments: '',
         maintenanceStart: '',
         maintenanceEnd: '',
         maintenanceServices: '',
         maintenanceContact: '',
-        emergencyUrgency: '',
-        emergencyDate: '',
-        emergencyAreas: '',
-        emergencyContact: '',
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -51,6 +43,67 @@ const NewAnnounce = () => {
             [id]: value,
         });
     };
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setIsCreating(true);
+        switch (formData.type) {
+            case 'assignment':
+                await createAssignment({
+                    title: formData.title,
+                    description: formData.description,
+                    type: formData.type,
+                    assignmentCourseCode: formData.assignmentCourseCode,
+                    assignmentDueDate: formData.assignmentDueDate,
+                    assignmentInstructions: formData.assignmentInstructions,
+                    assignmentInstructor: formData.assignmentInstructor,
+                    assignmentDate: formData.assignmentDate,
+                });
+                break;
+            case 'exam':
+                await createExam({
+                    title: formData.title,
+                    description: formData.description,
+                    type: formData.type,
+                    examCourseCode: formData.examCourseCode,
+                    examDate: formData.examDate,
+                    examTime: formData.examTime,
+                    examLocation: formData.examLocation,
+                    examInstructor: formData.examInstructor,
+                    examResources: formData.examResources,
+                })
+                break;
+            case 'event':
+                await createEvent({
+                    title: formData.title,
+                    description: formData.description,
+                    type: formData.type,
+                    eventDate: formData.eventDate,
+                    eventTime: formData.eventTime,
+                    eventLocation: formData.eventLocation,
+                    eventOrganizer: formData.eventOrganizer,
+                    eventContact: formData.eventContact,
+                    eventFlyer: formData.eventFlyer,
+                    eventRegistration: formData.eventRegistration,
+                })
+                break;
+            case 'maintenance':
+                await createMaintenance({
+                    title: formData.title,
+                    description: formData.description,
+                    type: formData.type,
+                    maintenanceStart: formData.maintenanceStart,
+                    maintenanceEnd: formData.maintenanceEnd,
+                    maintenanceServices: formData.maintenanceServices,
+                    maintenanceContact: formData.maintenanceContact,
+                })
+                break;
+            default:
+                { console.log("Announcement"); }
+                break;
+        }
+        setIsCreating(false);
+    }
     return (
         <section className="content">
             < BreadCrumb page_name="New Announcement" parent_name="Announcements" />
@@ -60,7 +113,7 @@ const NewAnnounce = () => {
                         <div className="card">
                             {/* /.card-header */}
                             <div className="card-body">
-                                <form autoComplete="on">
+                                <form autoComplete="on" onSubmit={handleSubmit}>
                                     {/* Common Fields */}
                                     <div className="form-group">
                                         <label htmlFor="title">Title <span className="text-danger">*</span></label>
@@ -74,41 +127,12 @@ const NewAnnounce = () => {
                                         <label htmlFor="type">Type <span className="text-danger">*</span></label>
                                         <select className="form-control" id="type" value={formData.type} onChange={handleChange} required>
                                             <option value="">Select Type</option>
-                                            <option value="course">Course</option>
                                             <option value="assignment">Assignment</option>
                                             <option value="exam">Exam</option>
                                             <option value="event">Event</option>
-                                            <option value="general">General University</option>
                                             <option value="maintenance">Maintenance</option>
-                                            <option value="emergency">Emergency</option>
                                         </select>
                                     </div>
-
-                                    {/* Course Announcement Specific Fields */}
-                                    {formData.type === 'course' && (
-                                        <div id="courseFields">
-                                            <div className="form-group">
-                                                <label htmlFor="courseCode">Course Code:</label>
-                                                <input type="text" className="form-control" id="courseCode" value={formData.courseCode} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="instructorName">Instructor Name:</label>
-                                                <input type="text" className="form-control" id="instructorName" value={formData.instructorName} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="courseDate">Date:</label>
-                                                <input type="date" className="form-control" id="courseDate" value={formData.courseDate} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="courseTime">Time:</label>
-                                                <input type="time" className="form-control" id="courseTime" value={formData.courseTime} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="courseResources">Additional Resources/Links:</label>
-                                                <input type="url" className="form-control" id="courseResources" value={formData.courseResources} onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                    )}
 
                                     {/* Assignment Announcement Specific Fields */}
                                     {formData.type === 'assignment' && (
@@ -123,7 +147,7 @@ const NewAnnounce = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="assignmentDueDate">Due Date:</label>
-                                                <input type="date" className="form-control" id="assignmentDueDate" value={formData.assignmentDueDate} onChange={handleChange} />
+                                                <input type="date" className="form-control" id="assignmentDueDate" value={formData.assignmentDueDate} onChange={handleChange} required />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="assignmentInstructions">Submission Instructions:</label>
@@ -149,7 +173,7 @@ const NewAnnounce = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="examDate">Exam Date:</label>
-                                                <input type="date" className="form-control" id="examDate" value={formData.examDate} onChange={handleChange} />
+                                                <input type="date" className="form-control" id="examDate" value={formData.examDate} onChange={handleChange} required />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="examTime">Exam Time:</label>
@@ -175,7 +199,7 @@ const NewAnnounce = () => {
                                         <div id="eventFields">
                                             <div className="form-group">
                                                 <label htmlFor="eventDate">Date:</label>
-                                                <input type="date" className="form-control" id="eventDate" value={formData.eventDate} onChange={handleChange} />
+                                                <input type="date" className="form-control" id="eventDate" value={formData.eventDate} onChange={handleChange} required />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="eventTime">Time:</label>
@@ -204,38 +228,16 @@ const NewAnnounce = () => {
                                         </div>
                                     )}
 
-                                    {/* General University Announcement Specific Fields */}
-                                    {formData.type === 'general' && (
-                                        <div id="generalFields">
-                                            <div className="form-group">
-                                                <label htmlFor="generalDate">Date:</label>
-                                                <input type="date" className="form-control" id="generalDate" value={formData.generalDate} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="generalDepartment">Department:</label>
-                                                <input type="text" className="form-control" id="generalDepartment" value={formData.generalDepartment} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="generalContact">Contact Information:</label>
-                                                <input type="text" className="form-control" id="generalContact" value={formData.generalContact} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="generalAttachments">Attachments/Links:</label>
-                                                <input type="url" className="form-control" id="generalAttachments" value={formData.generalAttachments} onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                    )}
-
                                     {/* Maintenance Announcement Specific Fields */}
                                     {formData.type === 'maintenance' && (
                                         <div id="maintenanceFields">
                                             <div className="form-group">
                                                 <label htmlFor="maintenanceStart">Start Date and Time:</label>
-                                                <input type="datetime-local" className="form-control" id="maintenanceStart" value={formData.maintenanceStart} onChange={handleChange} />
+                                                <input type="datetime-local" className="form-control" id="maintenanceStart" value={formData.maintenanceStart} onChange={handleChange} required />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="maintenanceEnd">End Date and Time:</label>
-                                                <input type="datetime-local" className="form-control" id="maintenanceEnd" value={formData.maintenanceEnd} onChange={handleChange} />
+                                                <input type="datetime-local" className="form-control" id="maintenanceEnd" value={formData.maintenanceEnd} onChange={handleChange} required />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="maintenanceServices">Affected Services:</label>
@@ -248,34 +250,7 @@ const NewAnnounce = () => {
                                         </div>
                                     )}
 
-                                    {/* Emergency Announcement Specific Fields */}
-                                    {formData.type === 'emergency' && (
-                                        <div id="emergencyFields">
-                                            <div className="form-group">
-                                                <label htmlFor="emergencyUrgency">Urgency Level:</label>
-                                                <select className="form-control" id="emergencyUrgency" value={formData.emergencyUrgency} onChange={handleChange}>
-                                                    <option value="">Select Urgency Level</option>
-                                                    <option value="low">Low</option>
-                                                    <option value="medium">Medium</option>
-                                                    <option value="high">High</option>
-                                                </select>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="emergencyDate">Effective Date and Time:</label>
-                                                <input type="datetime-local" className="form-control" id="emergencyDate" value={formData.emergencyDate} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="emergencyAreas">Affected Areas/Departments:</label>
-                                                <textarea className="form-control" id="emergencyAreas" value={formData.emergencyAreas} onChange={handleChange} rows={3}></textarea>
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="emergencyContact">Contact Information for Further Assistance:</label>
-                                                <input type="text" className="form-control" id="emergencyContact" value={formData.emergencyContact} onChange={handleChange} />
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <button type="submit" className="btn btn-primary">Submit</button>
+                                    <CreateButton isSaving={isCreating} />
                                 </form>
                             </div>
                             {/* /.card-body */}

@@ -2,25 +2,17 @@ import { h } from 'gridjs';
 import { Grid } from 'gridjs-react';
 // import 'gridjs/dist/theme/mermaid.css';
 import { useEffect, useState } from 'react';
-import BreadCrumb from '../../components/Admin/Breadcrumb';
-import axios from 'axios';
-import { Auth } from 'aws-amplify';
+import BreadCrumb from '../../../components/Admin/Breadcrumb';
+import { getStudents } from '../../../services/api/admin';
 const StudentApplicant = () => {
 
     const [data, setData] = useState<(string | null)[][]>([]);
 
     const fetchData = async () => {
-        const session = await Auth.currentSession();
-        const idToken = session.getIdToken().getJwtToken();
-        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/applicants/student`, {
-            headers: {
-                'Authorization': `Bearer ${idToken}`
-            }
-        });
+        const students = await getStudents();
+        console.log(students);
 
-        console.log(response);
-
-        let tableData = response.data.map((item: any) => [
+        let tableData = students.map((item: any) => [
             item.id,
             item.fullName,
             item.phone,
@@ -33,18 +25,7 @@ const StudentApplicant = () => {
     }
 
     useEffect(() => {
-        fetchData();
-        // Generate fake data
-
-        // const gridData = Array(50).fill(null).map(() => [
-        //     faker.person.firstName(),
-        //     faker.phone.number(),
-        //     faker.internet.email(),
-        //     faker.person.prefix(),
-        //     new Date().toLocaleDateString(),
-        //     null
-        // ]);
-        // setData(gridData);
+        fetchData().then(r => console.log('Data fetched'));
     }, []);
 
     return (

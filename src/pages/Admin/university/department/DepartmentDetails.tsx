@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { useParams } from "react-router-dom";
-import { getDepartmentById, updateDepartment } from "../../../../services/api/usiversityService";
+import { getDepartmentById, updateDepartment } from "../../../../services/api/usiversity";
 import { SaveButton } from "../../../../components/Admin/ButtonIndicator";
 import PageLoading from "../../../../components/Admin/PageLoading";
 

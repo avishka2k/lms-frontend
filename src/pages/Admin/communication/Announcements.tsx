@@ -5,29 +5,40 @@ import { useEffect, useState } from 'react';
 import { faker } from '@faker-js/faker';
 import BreadCrumb from "../../../components/Admin/Breadcrumb";
 import { Link } from 'react-router-dom';
+import { deleteAnnouncement, getAllAnnouncements } from '../../../services/api/announcement';
+import PageLoading from '../../../components/Admin/PageLoading';
 
 const Announcements = () => {
 
     const [data, setData] = useState<(string | null)[][]>([]);
+    const [loading, setLoading] = useState(true);
+
+    const getAnnouncements = async () => {
+        // Logic to get all announcements
+        const all = await getAllAnnouncements();
+        setData(all);
+        setLoading(false);
+    }
 
     useEffect(() => {
         // Generate fake data
-        const gridData = Array(50).fill(null).map(() => [
-            faker.person.firstName(),
-            faker.phone.number(),
-            faker.internet.email(),
-            faker.person.prefix(),
-            new Date().toLocaleDateString(),
-            null
-        ]);
-        setData(gridData);
+        getAnnouncements();
     }, []);
 
     const handleCreateAnnouncement = () => {
         // Logic to create a new announcement
         console.log("Create New Announcement button clicked");
     };
-    
+
+    const handleDeleteAnnouncement = async (id: string) => {
+        await deleteAnnouncement(id);
+        getAnnouncements();
+    }
+
+    if (loading) {
+        return <PageLoading />
+    }
+
     return (
         <section className="content">
             < BreadCrumb page_name="Announcements" parent_name="Communication" />
@@ -52,19 +63,20 @@ const Announcements = () => {
                                         });
                                     }}
                                     columns={[
-                                        { name: 'Student Name' },
-                                        { name: 'Phone' },
-                                        { name: 'Email' },
-                                        { name: 'Course/Program' },
-                                        { name: 'Application Date' },
+                                        { name: 'ID', hidden: true },
+                                        { name: 'Title' },
+                                        { name: 'Description' },
+                                        { name: 'Type', width: '20%' },
                                         {
                                             name: 'Status',
                                             formatter: (cell, row) => {
                                                 return h('div', { className: 'badge badge-warning' }, 'Pending');
-                                            }
+                                            },
+                                            width: '10%'
                                         },
                                         {
                                             name: 'Actions',
+                                            width: '15%',
                                             formatter: (cell, row) => {
                                                 return h(
                                                     'div',
@@ -89,7 +101,7 @@ const Announcements = () => {
                                                         'button',
                                                         {
                                                             className: 'btn btn-danger btn-flat btn-sm gridjs-action-button ml-2',
-                                                            onClick: () => console.log(`Viewing "${row.cells[0].data}" "${row.cells[1].data}"`)
+                                                            onClick: () => handleDeleteAnnouncement(`${row.cells[0].data}`)
                                                         },
                                                         h('i', { className: 'fas fa-times px-1' })
                                                     )

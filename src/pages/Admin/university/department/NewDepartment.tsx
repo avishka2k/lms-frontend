@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { createDepartment } from "../../../../services/api/usiversityService";
+import { createDepartment } from "../../../../services/api/usiversity";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import { CreateButton } from "../../../../components/Admin/ButtonIndicator";
 import { useState } from "react";

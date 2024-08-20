@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { Link, useParams } from "react-router-dom";
-import { assignDepartmentToFaculty, getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, unassignDepartmentFromFaculty, updateFaculty } from "../../../../services/api/usiversityService";
+import { assignDepartmentToFaculty, getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, unassignDepartmentFromFaculty, updateFaculty } from "../../../../services/api/usiversity";
 import { AssignButton, SaveButton } from "../../../../components/Admin/ButtonIndicator";
 import PageLoading from "../../../../components/Admin/PageLoading";
 import { notifyError, notifySuccess } from "../../../../components/notify";

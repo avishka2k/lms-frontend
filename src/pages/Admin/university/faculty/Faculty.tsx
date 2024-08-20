@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { Link, useNavigate } from "react-router-dom";
-import { deleteFaculty, getFaculties } from "../../../../services/api/usiversityService";
+import { deleteFaculty, getFaculties } from "../../../../services/api/usiversity";
 import PageLoading from "../../../../components/Admin/PageLoading";
 
 const Faculty = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './services/AuthContext';
 import AdminLayout from './pages/Admin/AdminLayout';
-import StudentApplicant from './pages/public/StudentApplicant';
+import StudentApplicant from './pages/Admin/student/StudentApplicant';
 import StudentOnboarding from './pages/Admin/student/StudentOnboarding';
 import LecturerOnboarding from './pages/Admin/lecturer/LecturerOnboarding';
 import Announcements from './pages/Admin/communication/Announcements';

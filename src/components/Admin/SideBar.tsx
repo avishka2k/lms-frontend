@@ -181,7 +181,6 @@ const Sidebar = () => {
                                 <i className="fas fa-headset nav-icon"></i>
                                 <p>
                                     Announcements
-                                    <span className="badge badge-info right">2</span>
                                 </p>
                             </NavLink>
                         </li>
