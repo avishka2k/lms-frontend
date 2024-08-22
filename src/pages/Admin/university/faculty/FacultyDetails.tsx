@@ -43,7 +43,7 @@ const FacultyDetails = () => {
         setDepartmentLoading(false);
     };
     useEffect(() => {
-        fetchDepartments();
+        fetchDepartments().then(r => console.log('Departments fetched'));
     }, []);
 
     // Fetch departments by faculty ID
@@ -53,7 +53,7 @@ const FacultyDetails = () => {
         setFacultyDepartmentLoading(false);
     };
     useEffect(() => {
-        fetchDepartmentsByFaculty();
+        fetchDepartmentsByFaculty().then(r => console.log('Departments by faculty fetched'));
     }, [id]);
 
 
@@ -135,8 +135,8 @@ const FacultyDetails = () => {
 
     const handleUnassign = async (id: string) => {
         await unassignDepartmentFromFaculty(id);
-        fetchDepartmentsByFaculty();
-        fetchDepartments();
+        await fetchDepartmentsByFaculty();
+        await fetchDepartments();
     }
 
     // next day start from here
@@ -157,8 +157,8 @@ const FacultyDetails = () => {
                 setIsAssign(false);
             }, 1000);
             notifySuccess("Department assigned successfully");
-            fetchDepartmentsByFaculty();
-            fetchDepartments();
+            await fetchDepartmentsByFaculty();
+            await fetchDepartments();
 
         } catch (error: any) {
             notifyError(error.response.data);

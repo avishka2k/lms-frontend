@@ -2,16 +2,17 @@ import { h } from 'gridjs';
 import { Grid } from 'gridjs-react';
 import { useEffect, useState } from 'react';
 import BreadCrumb from '../../../components/Admin/Breadcrumb';
-import { getStudents } from '../../../services/api/user';
+import {getAdmins, getStudents} from '../../../services/api/user';
+import {getApplicants} from "../../../services/api/applicants";
 const StudentApplicant = () => {
 
     const [data, setData] = useState<(string | null)[][]>([]);
 
     const fetchData = async () => {
-        const students = await getStudents();
-        console.log(students);
+        const applicants = await getApplicants();
+        console.log(applicants);
 
-        let tableData = students.map((item: any) => [
+        let tableData = applicants.map((item: any) => [
             item.id,
             item.fullName,
             item.phone,
