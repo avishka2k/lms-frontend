@@ -1,6 +1,6 @@
 import { h } from 'gridjs';
 import { Grid } from 'gridjs-react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from '../../../components/Admin/Breadcrumb';
 import { getStudents } from '../../../services/api/user';
 const StudentApplicant = () => {
