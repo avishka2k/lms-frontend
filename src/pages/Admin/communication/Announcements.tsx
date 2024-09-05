@@ -47,7 +47,7 @@ const Announcements = () => {
                     <div className="col-12">
                         <div className="card">
                             <div className="card-header d-flex justify-content-between align-items-center">
-                                <Link to="/announcements/new"
+                                <Link to="/admin/announcements/new"
                                     className="btn btn-primary"
                                 >
                                     Create New Announcement

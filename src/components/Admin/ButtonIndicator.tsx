@@ -7,11 +7,12 @@ interface ButtonProps {
     label: string;
     activeLabel: string;
     disabled?: boolean;
+    customClass?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ isSaving, onClick, type, label, activeLabel, disabled }) => {
+const Button: React.FC<ButtonProps> = ({ isSaving, onClick, type, label, activeLabel, disabled, customClass }) => {
     return (
-        <button className="btn btn-primary mr-4" type={type} disabled={isSaving || disabled} onClick={onClick}>
+        <button className={`btn btn-primary mr-4 ${customClass}`} type={type} disabled={isSaving || disabled} onClick={onClick}>
             {isSaving && (<span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>)}
             {isSaving ? `${activeLabel}` : label}
         </button>

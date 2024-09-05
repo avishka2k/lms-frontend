@@ -8,7 +8,13 @@
 #faculty-table_wrapper .btn-secondary,
 #faculty-departments-table_wrapper .btn-secondary,
 #department-table_wrapper .btn-secondary,
-#courses-department-table_wrapper .btn-secondary {
+#courses-department-table_wrapper .btn-secondary,
+#department-courses-table_wrapper .btn-secondary,
+#course-table_wrapper .btn-secondary,
+#course-modules-table_wrapper .btn-secondary,
+#module-table_wrapper .btn-secondary,
+#student-table_wrapper .btn-secondary
+{
   background-color: #007bff !important;
   border: none;
 }

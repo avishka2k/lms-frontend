@@ -4,29 +4,43 @@ import React, { useEffect, useState } from 'react';
 import BreadCrumb from '../../../components/Admin/Breadcrumb';
 import {getAdmins, getStudents} from '../../../services/api/user';
 import {getApplicants} from "../../../services/api/applicants";
+import {getCourseNameById} from "../../../services/api/course";
+import {useNavigate} from "react-router-dom";
 const StudentApplicant = () => {
 
     const [data, setData] = useState<(string | null)[][]>([]);
+    const navigate = useNavigate();
 
     const fetchData = async () => {
-        const applicants = await getApplicants();
-        console.log(applicants);
+        try {
+            const applicants = await getApplicants();
 
-        let tableData = applicants.map((item: any) => [
-            item.id,
-            item.fullName,
-            item.phone,
-            item.email,
-            item.course,
-            new Date(item.dateOfApplication).toLocaleDateString(),
-            null
-        ]);
-        setData(tableData);
+            let tableData = await Promise.all(applicants.map(async (item: any) => [
+                item.id,
+                item.fullName,
+                item.phone,
+                item.email,
+                await getCourseName(item.course),
+                new Date(item.dateOfApplication).toLocaleDateString(),
+                null
+            ]));
+            setData(tableData);
+        } catch (error: any) {
+            console.log(error);
+        }
+    }
+
+    const getCourseName = async (id: string) => {
+        return await getCourseNameById(id);
     }
 
     useEffect(() => {
-        fetchData().then(r => console.log('Data fetched'));
+        fetchData().then(r => r);
     }, []);
+
+    const handleView = (id: string) => {
+        navigate(`/admin/student/applicants/${id}/view`);
+    }
 
     return (
         <section className="content">
@@ -75,7 +89,7 @@ const StudentApplicant = () => {
                                                         'button',
                                                         {
                                                             className: 'btn btn-success btn-flat btn-sm gridjs-action-button ml-2',
-                                                            onClick: () => console.log(`Viewing "${row.cells[0].data}"`)
+                                                            onClick: () => handleView(`${row.cells[0].data}`)
                                                         },
                                                         h('i', { className: 'fas fa-comment-dots' })
                                                     ),

@@ -7,8 +7,7 @@ import { useState } from "react";
 const NewFaculty = () => {
 
     const navigate = useNavigate();
-    const [isCreating, setIsCreating] = useState(false);
-
+    const [isCreating, setIsCreating] = useState(false)
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -23,7 +22,7 @@ const NewFaculty = () => {
 
             const id = await create.then((res) => res?.data.id);
 
-            navigate(`/university/faculty/${id}/details`);
+            navigate(`/admin/university/faculty/${id}/details`);
         }
         setIsCreating(false);
     }
@@ -53,7 +52,7 @@ const NewFaculty = () => {
                                         <label className="col-sm-2 col-form-label"></label>
                                         <div className="col-sm-10 d-flex">
                                             <CreateButton isSaving={isCreating} />
-                                            <button type="reset" className="btn btn-default float-right">Cancel</button>
+                                            <button type="reset" className="btn btn-default float-right" onClick={() => navigate("/admin/university/faculty")}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>

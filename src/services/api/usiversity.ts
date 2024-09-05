@@ -1,5 +1,6 @@
 import { notifyError, notifySuccess } from "../../components/notify";
 import api from "./api";
+import apiPublic from "./api-public";
 
 export const getFaculties = async () => {
   try {
@@ -134,5 +135,15 @@ export const assignDepartmentToFaculty = async (
   const response = await api.post(
     `/uni/faculty/${facultyId}/department/${departmentId}`
   );
-  return response;
+  return response.data;
 };
+
+export const getPublicDepartment = async () => {
+  try {
+    const response = await apiPublic.get("/public/uni/departments");
+    return response.data;
+  } catch (error: any) {
+    notifyError(error);
+  }
+};
+

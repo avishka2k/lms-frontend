@@ -1,26 +1,83 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import BreadCrumb from "../../../components/Admin/Breadcrumb";
-import Inputmask from "inputmask";
+import {CreateButton} from "../../../components/Admin/ButtonIndicator";
+import {createLecturer} from "../../../services/api/user";
 
 
 const LecturerOnboarding = () => {
-    const [intake, setIntake] = useState<any>([]);
-    const autogeneratenumber = Math.floor(Math.random() * 1000000);
-    const emailInputRef = useRef<HTMLInputElement>(null);
-    const phoneInputRef = useRef<HTMLInputElement>(null);
-    const usernameInputRef = useRef<HTMLInputElement>(null);
+    const autogenerateNumber = Math.floor(Math.random() * 1000000);
+    const [isSave, setIsSave] = useState(false);
+    const [lecturer, setLecturer] = useState({
+        username: '',
+        firstName: '',
+        lastName: '',
+        fullName: '',
+        dateOfBirth: '',
+        gender: '',
+        address: {
+            addressLine1: '',
+            addressLine2: '',
+            city: '',
+            state: '',
+            country: '',
+        },
+        phone: '',
+        email: '',
+        lecturerId: '',
+        designation: '',
+        workType: '',
+        officeLocation: '',
+        highestDegree: '',
+        major: '',
+        linkedin: '',
+        emergencyPhone: '',
+        institution: '',
+        researchInterest: ''
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+        const { id, value } = e.target;
+
+        if (id in lecturer.address) {
+            // Update address nested object
+            setLecturer({
+                ...lecturer,
+                address: {
+                    ...lecturer.address,
+                    [id]: value,
+                },
+            });
+        } else {
+            // Update top-level fields
+            setLecturer({
+                ...lecturer,
+                [id]: value,
+            });
+        }
+    };
 
     useEffect(() => {
-        if (phoneInputRef.current) {
-            Inputmask({ mask: '099 999 9999' }).mask(phoneInputRef.current);
-        }
-        if (emailInputRef.current) {
-            Inputmask({ alias: 'email' }).mask(emailInputRef.current);
-        }
-        if (usernameInputRef.current) {
-            Inputmask({ regex: "^[a-z._]*[0-9]{0,3}[a-z._]*$" }).mask(usernameInputRef.current);
-        }
-    }, []);
+        const generatedUsername = genUsername(lecturer.firstName, autogenerateNumber);
+        setLecturer({
+            ...lecturer,
+            username: generatedUsername,
+            lecturerId: autogenerateNumber.toString(),
+        });
+    }, [lecturer.firstName]);
+
+    const genUsername = (name: string, id: number) => {
+        return `${name.toLowerCase()}${id}`;
+    };
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setIsSave(true);
+        await createLecturer(lecturer);
+        setTimeout(() => {
+            setIsSave(false);
+        }, 1000)
+        console.log(lecturer);
+    }
 
     return (
 
@@ -32,88 +89,88 @@ const LecturerOnboarding = () => {
                         {/* Default box */}
                         <div className="card">
                             <div className="card-body">
-                                <form action="">
+                                <form onSubmit={handleSubmit}>
                                     <h5 className="pb-4"><strong>Basic Information</strong></h5>
                                     <div className="row">
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>First Name <span className="text-danger">*</span></label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="firstName" name="firstName" value={lecturer.firstName} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Last Name</label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="lastName" name="lastName" value={lecturer.lastName} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12">
                                             <div className="form-group">
                                                 <label>Full Name (Initials) <span className="text-danger">*</span></label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="fullName" name="fullName" value={lecturer.fullName} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Date of Birth <span className="text-danger">*</span></label>
-                                                <div className="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                                    <input type="text" className="form-control datetimepicker-input" data-target="#datetimepicker4" />
-                                                    <div className="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                                        <div className="input-group-text"><i className="fa fa-calendar"></i></div>
-                                                    </div>
+                                                <div className="input-group date" id="datetimepicker4"
+                                                     data-target-input="nearest">
+                                                    <input type="date" className="form-control"
+                                                           value={lecturer.dateOfBirth} id="dateOfBirth" name="dateOfBirth" onChange={handleChange} required/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Gender <span className="text-danger">*</span></label>
-                                                <select className="form-control">
-                                                    <option>Male</option>
-                                                    <option>Female</option>
+                                                <select className="form-control" id="gender" name="gender" value={lecturer.gender} onChange={handleChange} required>
+                                                    <option value="">Select Gender</option>
+                                                    <option value="Male">Male</option>
+                                                    <option value="Female">Female</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <label className="col-12">Address <span className="text-danger">*</span></label>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="addressLine1" name="addressLine1" value={lecturer.address.addressLine1} onChange={handleChange} required/>
                                                 <p><small>Address Line 1</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="addressLine2" name="addressLine2" value={lecturer.address.addressLine2} onChange={handleChange} />
                                                 <p><small>Address Line 2</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-4">
                                             <div className="form-group">
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="city" name="city" value={lecturer.address.city} onChange={handleChange}/>
                                                 <p><small>City</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-4">
                                             <div className="form-group">
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="state" name="state" value={lecturer.address.state} onChange={handleChange}/>
                                                 <p><small>State / Province</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-4">
                                             <div className="form-group">
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="country" name="country" value={lecturer.address.country} onChange={handleChange}/>
                                                 <p><small>Country</small></p>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Phone Number</label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="phone" name="phone" value={lecturer.phone} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Email Address <span className="text-danger">*</span></label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="email" name="email" value={lecturer.email} onChange={handleChange}/>
                                             </div>
                                         </div>
                                     </div>
@@ -122,19 +179,20 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Lecturer ID <em>(Auto Generated)</em></label>
-                                                <input className="form-control" type="text" value={autogeneratenumber} disabled />
+                                                <input className="form-control" type="text" value={lecturer.lecturerId} id="lecturerId" name="lecturerId" onChange={handleChange} disabled />
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Designation</label>
-                                                <input className="form-control" type="text" placeholder="e.g., Professor, Assistant Professor, Lecturer" />
+                                                <input className="form-control" type="text" placeholder="e.g., Professor, Assistant Professor, Lecturer" id="designation" name="designation" value={lecturer.designation} onChange={handleChange} />
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Office Location  <span className="text-danger">*</span></label>
-                                                <select className="form-control">
+                                                <select className="form-control" id="officeLocation" name="officeLocation" value={lecturer.officeLocation} onChange={handleChange}>
+                                                    <option value="">Select Location</option>
                                                     <option value="Colombo 7">Colombo 7</option>
                                                     <option value="homagama">Homagama</option>
                                                 </select>
@@ -143,10 +201,10 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Employment Type <span className="text-danger">*</span></label>
-                                                <select className="form-control">
+                                                <select className="form-control" id="workType" name="workType" value={lecturer.workType} onChange={handleChange}>
                                                     <option value="Full Time">Full Time</option>
                                                     <option value="Part Time">Part Time</option>
-                                                    <option value="Visiting Faculty">Visiting Faculty</option>
+                                                    <option value="Visiting Course">Visiting Course</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -157,25 +215,25 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Highest Degree Obtained <span className="text-danger">*</span></label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="highestDegree" name="highestDegree" value={lecturer.highestDegree} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Specialization / Major</label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="major" name="major" value={lecturer.major} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>University/Institution of Highest Degree</label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="institution" name="institution" value={lecturer.institution} onChange={handleChange}/>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Areas of Research Interest</label>
-                                                <input className="form-control" type="text" />
+                                                <input className="form-control" type="text" id="researchInterest" name="researchInterest" value={lecturer.researchInterest} onChange={handleChange}/>
                                             </div>
                                         </div>
                                     </div>
@@ -185,13 +243,13 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Username <span className="text-danger">*</span></label>
-                                                <input className="form-control" type="text" ref={usernameInputRef} required />
+                                                <input className="form-control" type="text" id="username" name="username" value={lecturer.username} onChange={handleChange} required />
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>Role</label>
-                                                <input className="form-control" type="text" value="Lecturer" disabled />
+                                                <input className="form-control" type="text" value="Lecturer" id="name" name="name" onChange={handleChange} disabled />
                                             </div>
                                         </div>
                                     </div>
@@ -201,7 +259,7 @@ const LecturerOnboarding = () => {
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
                                                 <label>LinkedIn </label>
-                                                <input className="form-control" type="text" placeholder="" />
+                                                <input className="form-control" type="text" placeholder="" id="linkedin" name="linkedin" value={lecturer.linkedin} onChange={handleChange} />
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
@@ -211,19 +269,19 @@ const LecturerOnboarding = () => {
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text"><strong>+94</strong></span>
                                                     </div>
-                                                    <input className="form-control" type="text" ref={phoneInputRef} placeholder="0712345678" />
+                                                    <input className="form-control" type="text" id="emergencyPhone" name="emergencyPhone" value={lecturer.emergencyPhone} onChange={handleChange} placeholder="0712345678" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-12 mt-5"></div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
-                                                <button type="button" className="btn btn-block btn-default btn-lg">Save As Draft</button>
+                                                <button type="button" className="btn btn-block btn-default btn-lg">Cancel</button>
                                             </div>
                                         </div>
                                         <div className="col-12 col-sm-6">
                                             <div className="form-group">
-                                                <button type="button" className="btn btn-block btn-primary btn-lg">Approve</button>
+                                                <CreateButton isSaving={isSave} customClass={"btn-block btn-lg"}/>
                                             </div>
                                         </div>
                                     </div>

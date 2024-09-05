@@ -31,7 +31,7 @@ const Department = () => {
                     {
                         text: 'Create New',
                         action: function (e: any, dt: any, node: any, config: any) {
-                            navigate("/university/department/new");
+                            navigate("/admin/university/department/new");
                         },
                     },
                 ],
@@ -64,26 +64,33 @@ const Department = () => {
                             <div className="card-body">
                                 <table id="department-table" className="table table-hover text-nowrap">
                                     <thead>
-                                        <tr>
-                                            <th className="col-3">Department Name</th>
-                                            <th className="col-3">Description</th>
-                                            <th className="col-3">Courses</th>
-                                            <th className="col-1"></th>
-                                        </tr>
+                                    <tr>
+                                        <th className="col-2">Department ID</th>
+                                        <th className="col-4">Department Name</th>
+                                        <th className="col-3">Courses</th>
+                                        <th className="col-1"></th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                         {
                                             Array.isArray(department) && department.length > 0 ? (
                                                 department.map((f: any) => (
                                                     <tr key={f.id}>
-                                                        <td><Link to={`/university/department/${f.id}/details`}>{f.name}</Link></td>
-                                                        <td>{f.description}</td>
+                                                        <td>{f.did}</td>
+                                                        <td><Link
+                                                            to={`/admin/university/department/${f.id}/details`}>{f.name}</Link>
+                                                        </td>
                                                         <td>0</td>
                                                         <td>
-                                                            <i className="fas fa-ellipsis-v button-cursor-pointer" id="dropdownMenuButton1" data-toggle="dropdown" aria-haspopup="true"></i>
-                                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                <a className="dropdown-item" href="@{/users/details}">Edit</a>
-                                                                <a className="dropdown-item text-danger" type="button" onClick={() => handleDelete(f.id)}>Delete</a>
+                                                            <i className="fas fa-ellipsis-v button-cursor-pointer"
+                                                               id="dropdownMenuButton1" data-toggle="dropdown"
+                                                               aria-haspopup="true"></i>
+                                                            <div className="dropdown-menu"
+                                                                 aria-labelledby="dropdownMenuButton1">
+                                                                <a className="dropdown-item"
+                                                                   href={`/admin/university/department/${f.id}/details`}>Edit</a>
+                                                                <a className="dropdown-item text-danger" type="button"
+                                                                   onClick={() => handleDelete(f.id)}>Delete</a>
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -2,10 +2,11 @@ import { useState } from "react";
 import BreadCrumb from "../../../components/Admin/Breadcrumb";
 import { createAssignment, createEvent, createExam, createMaintenance } from "../../../services/api/announcement";
 import { CreateButton } from "../../../components/Admin/ButtonIndicator";
+import {useNavigate} from "react-router-dom";
 const NewAnnounce = () => {
 
     const [isCreating, setIsCreating] = useState(false);
-
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         title: '',
@@ -16,7 +17,6 @@ const NewAnnounce = () => {
         assignmentDueDate: '',
         assignmentInstructions: '',
         assignmentInstructor: '',
-        assignmentDate: '',
         examCourseCode: '',
         examDate: '',
         examTime: '',
@@ -49,7 +49,7 @@ const NewAnnounce = () => {
         setIsCreating(true);
         switch (formData.type) {
             case 'assignment':
-                await createAssignment({
+              const assignment =  await createAssignment({
                     title: formData.title,
                     description: formData.description,
                     type: formData.type,
@@ -57,11 +57,13 @@ const NewAnnounce = () => {
                     assignmentDueDate: formData.assignmentDueDate,
                     assignmentInstructions: formData.assignmentInstructions,
                     assignmentInstructor: formData.assignmentInstructor,
-                    assignmentDate: formData.assignmentDate,
                 });
+                if (assignment && assignment.status === 200) {
+                    navigate('/admin/announcements');
+                }
                 break;
             case 'exam':
-                await createExam({
+                const exam =  await createExam({
                     title: formData.title,
                     description: formData.description,
                     type: formData.type,
@@ -72,9 +74,12 @@ const NewAnnounce = () => {
                     examInstructor: formData.examInstructor,
                     examResources: formData.examResources,
                 })
+                if (exam && exam.status === 200) {
+                    navigate('/admin/announcements');
+                }
                 break;
             case 'event':
-                await createEvent({
+             const event = await createEvent({
                     title: formData.title,
                     description: formData.description,
                     type: formData.type,
@@ -86,9 +91,12 @@ const NewAnnounce = () => {
                     eventFlyer: formData.eventFlyer,
                     eventRegistration: formData.eventRegistration,
                 })
+                if (event && event.status === 200) {
+                    navigate('/admin/announcements');
+                }
                 break;
             case 'maintenance':
-                await createMaintenance({
+             const maintenance = await createMaintenance({
                     title: formData.title,
                     description: formData.description,
                     type: formData.type,
@@ -97,9 +105,12 @@ const NewAnnounce = () => {
                     maintenanceServices: formData.maintenanceServices,
                     maintenanceContact: formData.maintenanceContact,
                 })
+                console.log(maintenance);
+                if (maintenance && maintenance.status === 200) {
+                    navigate('/admin/announcements');
+                }
                 break;
             default:
-                { console.log("Announcement"); }
                 break;
         }
         setIsCreating(false);
@@ -156,10 +167,6 @@ const NewAnnounce = () => {
                                             <div className="form-group">
                                                 <label htmlFor="assignmentInstructor">Instructor Name:</label>
                                                 <input type="text" className="form-control" id="assignmentInstructor" value={formData.assignmentInstructor} onChange={handleChange} />
-                                            </div>
-                                            <div className="form-group">
-                                                <label htmlFor="assignmentDate">Date:</label>
-                                                <input type="date" className="form-control" id="assignmentDate" value={formData.assignmentDate} onChange={handleChange} />
                                             </div>
                                         </div>
                                     )}

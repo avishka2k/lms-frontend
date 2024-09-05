@@ -22,7 +22,7 @@ const NewDepartment = () => {
 
             const id = await create.then((res) => res?.data.id);
 
-            navigate(`/university/department/${id}/details`);
+            navigate(`/admin/university/department/${id}/details`);
         }
         setIsCreating(false);
     }
@@ -52,7 +52,7 @@ const NewDepartment = () => {
                                         <label className="col-sm-2 col-form-label"></label>
                                         <div className="col-sm-10 d-flex">
                                             <CreateButton isSaving={isCreating} />
-                                            <button type="reset" className="btn btn-default float-right">Cancel</button>
+                                            <button type="reset" className="btn btn-default float-right" onClick={() => navigate("/admin/university/department")}>Cancel</button>
                                         </div>
                                     </div>
                                 </div>

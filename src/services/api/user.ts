@@ -1,4 +1,4 @@
-import { notifyError } from "../../components/notify";
+import {notifyError, notifySuccess} from "../../components/notify";
 import api from "./api";
 
 
@@ -7,7 +7,7 @@ export const getAdmins = async () => {
         const response = await api.get("/user/admin/getAdmins");
         return response.data;
     } catch (error: any) {
-        notifyError(error);
+        notifyError(error.response.data);
     }
 }
 
@@ -20,9 +20,28 @@ export const getUserDetails = async () => {
   }
 };
 
+export const getStudentDetailsByUsername = async (username: string) => {
+    try {
+        const response = await api.get(`/user/student/${username}/username`);
+        return response.data;
+    } catch (error: any) {
+        notifyError(error.response.data);
+    }
+}
+
+export const getLecturerDetailsByUsername = async (username: string) => {
+  try {
+    const response = await api.get(`/user/lecturer/${username}/username`);
+    return response.data;
+  } catch (error: any) {
+    notifyError(error.response.data);
+  }
+}
+
+
 export const getStudents = async () => {
   try {
-    const response = await api.get("/user/admin/getStudents");
+    const response = await api.get("/user/admin/students");
     return response.data;
   } catch (error: any) {
     notifyError(error);
@@ -31,12 +50,21 @@ export const getStudents = async () => {
 
 export const getLecturers = async () => {
   try {
-    const response = await api.get("/user/admin/getLecturers");
+    const response = await api.get("/user/admin/lecturers");
     return response.data;
   } catch (error: any) {
     notifyError(error);
   }
 };
+
+export const deleteLecturer = async (username: string) => {
+    try {
+        const response = await api.delete(`/user/admin/deleteUser/${username}`);
+        return response.data;
+    } catch (error: any) {
+        notifyError(error);
+    }
+}
 
 export const getUser = async (username: string) => {
   try {
@@ -49,19 +77,21 @@ export const getUser = async (username: string) => {
 
 export const createStudent = async (userData: any) => {
   try {
-    const response = await api.post("/user/admin/createStudent", userData);
+    const response = await api.post("/user/admin/students", userData);
+    notifySuccess("Student created successfully");
     return response.data;
   } catch (error: any) {
-    notifyError(error);
+    notifyError(error.response.data);
   }
 };
 
 export const createLecturer = async (userData: any) => {
   try {
-    const response = await api.post("/user/admin/createLecturer", userData);
+    const response = await api.post("/user/admin/lecturers", userData);
+    notifySuccess("Lecturer created successfully");
     return response.data;
   } catch (error: any) {
-    notifyError(error);
+    notifyError(error.response.data);
   }
 };
 
@@ -70,7 +100,7 @@ export const updateUser = async (username: string, attributes: any) => {
     const response = await api.put(`/user/admin/updateUser/${username}`, attributes);
     return response.data;
   } catch (error: any) {
-    notifyError(error);
+    notifyError(error.response.data);
   }
 };
 
@@ -79,6 +109,15 @@ export const deleteUser = async (username: string) => {
     const response = await api.delete(`/user/admin/deleteUser/${username}`);
     return response.data;
   } catch (error: any) {
-    notifyError(error);
+    notifyError(error.response.data);
+  }
+};
+
+export const deleteStudent = async (username: string) => {
+  try {
+    const response = await api.delete(`/user/admin/deleteUser/${username}`);
+    return response.data;
+  } catch (error: any) {
+    notifyError(error.response.data);
   }
 };

@@ -219,7 +219,7 @@ CodeMirror.defineMIME('text/x-ocaml', {
      'string': 'type',
      'unit': 'type',
 
-     // Modules
+     // Module
      'List': 'builtin'
   }
 });

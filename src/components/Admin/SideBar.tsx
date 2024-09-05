@@ -1,10 +1,12 @@
 import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import {getApplicantsLength} from "../../services/api/applicants";
 
 const Sidebar = () => {
 
     const [username, setUsername] = useState("");
+    const [applicantLength, setApplicantLength] = useState(0);
 
     useEffect(() => {
         fetchUser();
@@ -20,11 +22,19 @@ const Sidebar = () => {
         }
     };
 
+    useEffect(() => {
+        getApplicantsLength().then(
+            data => {
+                setApplicantLength(data);
+            }
+        )
+    }, []);
+
     return (
         <aside className="main-sidebar sidebar-dark-primary elevation-4">
             {/* Brand Logo */}
             <a href="index3.html" className="brand-link">
-                <img src="/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0.8 }} />
+                <img src="/dist/img/main-logo.png" alt="AdminLTE Logo" className="brand-image img-circle elevation-3" style={{ opacity: 0.8 }} />
                 <span className="brand-text font-weight-light">UNI LMS</span>
             </a>
 
@@ -57,7 +67,7 @@ const Sidebar = () => {
                     <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         {/* Add icons to the links using the .nav-icon class with font-awesome or any other icon font library */}
                         <li className="nav-item">
-                            <NavLink to="/" className="nav-link">
+                            <NavLink to="/admin/index" className="nav-link">
                                 <i className="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
@@ -66,7 +76,7 @@ const Sidebar = () => {
                         </li>
                         <li className="nav-header">University Management</li>
                         <li className="nav-item">
-                            <NavLink to="/university/faculty" className="nav-link">
+                            <NavLink to="/admin/university/faculty" className="nav-link">
                                 <i className="fas fa-home nav-icon"></i>
                                 <p>
                                     Faculty
@@ -74,7 +84,7 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/university/department" className="nav-link">
+                            <NavLink to="/admin/university/department" className="nav-link">
                                 <i className="fas fa-sitemap nav-icon"></i>
                                 <p>
                                     Department
@@ -82,15 +92,15 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/university/courses" className="nav-link">
+                            <NavLink to="/admin/university/course" className="nav-link">
                                 <i className="fas fa-book nav-icon"></i>
                                 <p>
-                                    Courses
+                                    Course
                                 </p>
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/university/modules" className="nav-link">
+                            <NavLink to="/admin/university/module" className="nav-link">
                                 <i className="fas fa-book-open nav-icon"></i>
                                 <p>
                                     Modules
@@ -104,26 +114,23 @@ const Sidebar = () => {
                                 <p>
                                     Students
                                     <i className="fas fa-angle-right right"></i>
-                                    <span className="badge badge-info right">6</span>
+                                    {applicantLength > 0 && <span className="badge badge-info right">{applicantLength}</span>}
                                 </p>
                             </a>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
-                                    <NavLink to="/student/applicants" className="nav-link">
+                                    <NavLink to="/admin/student/applicants" className="nav-link">
                                         <i className="far fa-circle nav-icon"></i>
-                                        <p>Applicants</p>
+                                        <p>
+                                            Applicants
+                                            {applicantLength > 0 && <span className="badge badge-info right">{applicantLength}</span>}
+                                        </p>
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to="/student/onboarding" className="nav-link">
+                                    <NavLink to="/admin/student/enrolled" className="nav-link">
                                         <i className="far fa-circle nav-icon"></i>
-                                        <p>Student Enroll</p>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink to="pages/layout/top-nav-sidebar.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Import Students</p>
+                                        <p>Enrolled Students</p>
                                     </NavLink>
                                 </li>
                             </ul>
@@ -138,46 +145,22 @@ const Sidebar = () => {
                             </a>
                             <ul className="nav nav-treeview">
                                 <li className="nav-item">
-                                    <NavLink to="/lecturer/onboarding" className="nav-link">
+                                    <NavLink to="/admin/lecturer/onboarding" className="nav-link">
                                         <i className="far fa-circle nav-icon"></i>
-                                        <p>Onboarding</p>
+                                        <p>New</p>
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <NavLink to="pages/charts/flot.html" className="nav-link">
+                                    <NavLink to="/admin/lecturer/all" className="nav-link">
                                         <i className="far fa-circle nav-icon"></i>
-                                        <p>Import Lecturers</p>
-                                    </NavLink>
-                                </li>
-                            </ul>
-                        </li>
-                        <li className="nav-header">Enrollment Management</li>
-                        <li className="nav-item">
-                            <a href="#" className="nav-link">
-                                <i className="fas fa-plus-square nav-icon"></i>
-                                <p>
-                                    Enrollments
-                                    <i className="right fas fa-angle-right"></i>
-                                </p>
-                            </a>
-                            <ul className="nav nav-treeview">
-                                <li className="nav-item">
-                                    <NavLink to="pages/charts/chartjs.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Enroll New Students</p>
-                                    </NavLink>
-                                </li>
-                                <li className="nav-item">
-                                    <NavLink to="pages/charts/flot.html" className="nav-link">
-                                        <i className="far fa-circle nav-icon"></i>
-                                        <p>Batch Enrollments</p>
+                                        <p>All Lecturers</p>
                                     </NavLink>
                                 </li>
                             </ul>
                         </li>
                         <li className="nav-header">Communication</li>
                         <li className="nav-item">
-                            <NavLink to="announcements" className="nav-link">
+                            <NavLink to="/admin/announcements" className="nav-link">
                                 <i className="fas fa-headset nav-icon"></i>
                                 <p>
                                     Announcements
@@ -185,7 +168,7 @@ const Sidebar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/messages" className="nav-link">
+                            <NavLink to="/admin/messages" className="nav-link">
                                 <i className="fas fa-comment-alt nav-icon"></i>
                                 <p>
                                     Messages
@@ -222,14 +205,6 @@ const Sidebar = () => {
                                     </NavLink>
                                 </li>
                             </ul>
-                        </li>
-                        <li className="nav-item">
-                            <NavLink to="pages/calendar.html" className="nav-link">
-                                <i className="fas fa-file-alt nav-icon"></i>
-                                <p>
-                                    Reports
-                                </p>
-                            </NavLink>
                         </li>
                         <li className="nav-item">
                             <NavLink to="pages/calendar.html" className="nav-link">

@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import BreadCrumb from "../../../../components/Admin/Breadcrumb";
 import 'datatables.net-buttons-bs5';
 import { Link, useParams } from "react-router-dom";
-import { assignDepartmentToFaculty, getDepartmentsByFacultyId, getDepartmentsWithoutAssigned, getFacultyById, unassignDepartmentFromFaculty, updateFaculty } from "../../../../services/api/usiversity";
+import {
+    assignDepartmentToFaculty,
+    getDepartmentsByFacultyId,
+    getDepartmentsWithoutAssigned,
+    getFacultyById,
+    unassignDepartmentFromFaculty,
+    updateFaculty
+} from "../../../../services/api/usiversity";
 import { AssignButton, SaveButton } from "../../../../components/Admin/ButtonIndicator";
 import PageLoading from "../../../../components/Admin/PageLoading";
 import { notifyError, notifySuccess } from "../../../../components/notify";
@@ -14,6 +21,7 @@ const FacultyDetails = () => {
     const [facultyDepartmentLoading, setFacultyDepartmentLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
     const [isAssign, setIsAssign] = useState(false);
+    const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
     const [faculty, setFaculty] = useState<any>({
         id: '',
         fid: '',
@@ -33,7 +41,7 @@ const FacultyDetails = () => {
             setFaculty(facultyData);
             setLoading(false);
         };
-        fetchFacultyDetails();
+        fetchFacultyDetails().then(r => r);
     }, [id]);
 
     // Fetch all departments
@@ -43,7 +51,7 @@ const FacultyDetails = () => {
         setDepartmentLoading(false);
     };
     useEffect(() => {
-        fetchDepartments().then(r => console.log('Departments fetched'));
+        fetchDepartments().then(r => r);
     }, []);
 
     // Fetch departments by faculty ID
@@ -53,9 +61,8 @@ const FacultyDetails = () => {
         setFacultyDepartmentLoading(false);
     };
     useEffect(() => {
-        fetchDepartmentsByFaculty().then(r => console.log('Departments by faculty fetched'));
+        fetchDepartmentsByFaculty().then(r => r);
     }, [id]);
-
 
     // Initialize DataTables for faculty departments
     useEffect(() => {
@@ -120,8 +127,6 @@ const FacultyDetails = () => {
         }, 1000);
     };
 
-    const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
-
     const handleCheckboxChange = (id: string) => {
         setCheckedItems(prevState => ({
             ...prevState,
@@ -162,6 +167,7 @@ const FacultyDetails = () => {
 
         } catch (error: any) {
             notifyError(error.response.data);
+            setIsAssign(false);
         }
     }
 
@@ -171,7 +177,7 @@ const FacultyDetails = () => {
 
     return (
         <section className="content">
-            < BreadCrumb title={faculty.name ? faculty.name : 'Loading...'} page_name="Faculty" parent_name="University" />
+            <BreadCrumb title={faculty.name ? faculty.name : 'Loading...'} page_name="Faculty" parent_name="University" />
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-12">
@@ -179,13 +185,13 @@ const FacultyDetails = () => {
                             <div className="card-header p-0 border-bottom-0">
                                 <ul className="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                                     <li className="nav-item">
-                                        <a className="nav-link active" id="custom-tabs-four-details-tab" data-toggle="pill" href="#custom-tabs-four-details" role="tab" aria-controls="custom-tabs-four-details" aria-selected="true">Details</a>
+                                        <a className="nav-link active" id="custom-tabs-four-details-tab" data-toggle="pill" href={"#custom-tabs-four-details"} role="tab" aria-controls="custom-tabs-four-details" aria-selected="true">Details</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" id="custom-tabs-four-departments-tab" data-toggle="pill" href="#custom-tabs-four-departments" role="tab" aria-controls="custom-tabs-four-departments" aria-selected="false">Departments</a>
+                                        <a className="nav-link" id="custom-tabs-four-departments-tab" data-toggle="pill" href={"#custom-tabs-four-departments"} role="tab" aria-controls="custom-tabs-four-departments" aria-selected="false">Departments</a>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href="#custom-tabs-four-settings" role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Settings</a>
+                                        <a className="nav-link" id="custom-tabs-four-settings-tab" data-toggle="pill" href={"#custom-tabs-four-settings"} role="tab" aria-controls="custom-tabs-four-settings" aria-selected="false">Settings</a>
                                     </li>
                                 </ul>
                             </div>
@@ -279,7 +285,7 @@ const FacultyDetails = () => {
                                                                                         <td>
                                                                                             <div className="custom-control custom-checkbox">
                                                                                                 <input type="checkbox" name="terms" className="custom-control-input scope-checkbox" id={`checkbox-${d.id}`}
-                                                                                                    checked={!!checkedItems[d.id]} onChange={() => handleCheckboxChange(d.id)} />
+                                                                                                       checked={checkedItems[d.id]} onChange={() => handleCheckboxChange(d.id)} />
                                                                                                 <label className="custom-control-label" htmlFor={`checkbox-${d.id}`}></label>
 
                                                                                                 <Link to={``}>{d.did}</Link>
