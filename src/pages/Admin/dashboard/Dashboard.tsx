@@ -169,6 +169,7 @@ const Dashboard = () => {
                                     </thead>
                                     <tbody>
                                     {
+                                      Array.isArray(data) && data.length > 0 ? (
                                         data.map((applicant: any) => (
                                             <tr>
                                                 <td>
@@ -184,6 +185,9 @@ const Dashboard = () => {
                                                 </td>
                                             </tr>
                                         ))
+                                        ) : (
+                                            <></>
+                                        )
                                     }
                                     </tbody>
                                 </table>
